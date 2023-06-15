@@ -16,3 +16,7 @@ pip install -r requirements.txt
 ```bash
 python3 generate_slides.py
 ```
+
+4. In the sprint demo slide deck, click on the beginning of your teams slides.
+5. Click file > Import slides > Upload from file > Select the generated slides file > **Uncheck Keep Original Theme**
+6. Click Import Slides
