@@ -1,4 +1,6 @@
 # Author: Luke Connolly
+import collections
+import collections.abc
 from pptx import Presentation
 from pptx.util import Pt
 import configparser
@@ -77,6 +79,13 @@ def isInThisSprint(issue:object) -> bool:
 def isBug(issue:object) -> bool:
     return 'epicId' not in issue
 
+def getTotalFinishedBugs(bugs: list) -> str:
+    return len(list(filter(lambda bug : bug.status == 'Done', bugs)))
+
+def getBugTitle(bugs: list) -> str:
+    closedBugs = getTotalFinishedBugs(bugs)
+    return f"Bugs ({closedBugs} closed, {len(bugs) - closedBugs} open ) "
+
 def createSlide(title:str):
     slide = PRS.slides.add_slide(LAYOUT)
     slide.shapes.title.text = title
@@ -132,6 +141,9 @@ for epic in epicsSortedBySize:
     totalEpics += 1
 
 slide = createSlide(BUGS)
+slide.text = getBugTitle(bugs)
+slide.paragraphs[0].font.size = Pt(17.5)
+slide.paragraphs[0].font.bold = True
 for bug in bugs:
     paragraph = slide.add_paragraph()
     paragraph.text = str(bug)
